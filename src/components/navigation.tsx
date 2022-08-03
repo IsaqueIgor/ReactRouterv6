@@ -9,7 +9,7 @@ export function Navigation() {
             <Link to='/'>Home</Link>
           </li>
           <li>
-            <Link to='/books'>Books</Link>
+            <Link to='/books'>Book List</Link>
           </li>
           <li>
             <Link to='/about'>About</Link>
