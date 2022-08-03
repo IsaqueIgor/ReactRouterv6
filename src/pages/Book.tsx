@@ -1,4 +1,4 @@
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 interface IContext {
   name: string;
@@ -6,12 +6,5 @@ interface IContext {
 
 export function Book() {
   const { id } = useParams();
-  const context = useOutletContext<IContext>();
-  return (
-    <>
-      <h1>
-        Book {id} by {context.name}
-      </h1>
-    </>
-  );
+  return <h1>Book {id}</h1>;
 }

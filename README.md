@@ -113,3 +113,49 @@ export function Book() {
   )
 }
 ```
+
+## Nested Routes 
+The other way to use multiple Routes components is to nest them inside one another. This is pretty common if you have lots of routes and want to clean up your code by moving similar routes into their own files.
+Nesting Routes in React Router is pretty simple. All you need to do is create a new component to store your nested Routes this component should have a Routes component and inside that Routes component should be all the Route components that you are matching with the parent Route. In our case we are moving all our /books routes into this BookRoute component. Then in the parent Routes you need to define a Route that has a path equal to the path all your nested Routes share. In our case that would be /books. The important thing, though, is you need to end your parent Route path with a * otherwise it will not properly match the child routes.
+```javascript
+<Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/books/*" element={<BookRoutes />} />
+  <Route path="*" element={<NotFound />} />
+</Routes>
+```
+```javascript
+import { Routes, Route } from "react-router-dom"
+import { BookList } from "./pages/BookList"
+import { Book } from "./pages/Book"
+import { NewBook } from "./pages/NewBook"
+import { BookLayout } from "./BookLayout"
+
+export function BookRoutes() {
+  return (
+    <Routes>
+      <Route element={<BookLayout />}>
+        <Route index element={<BookList />} />
+        <Route path=":id" element={<Book />} />
+        <Route path="new" element={<NewBook />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  )
+}
+```
+## useRoutes Hook
+One thing you need to know about defining routes in React Router is that you can use a JavaScript object to define your routes instead of JSX if you prefer.
+```javascript
+import { Route, Routes } from "react-router-dom"
+import { Home } from "./Home"
+import { BookList } from "./BookList"
+import { Book } from "./Book"
+
+export function App() {
+  const element = useRoutes([
+    {
+      path: "/",
+      element: <Home />
+   
+```

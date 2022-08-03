@@ -1,26 +1,48 @@
 import React from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useRoutes } from 'react-router-dom';
 import { Home } from './pages/Home';
-import { Books } from './pages/Books';
 import { Navigation } from './components/navigation';
 import { About } from './pages/About';
-import { Book } from './pages/Book';
-import { NewBook } from './pages/NewBook';
 import { NotFound } from './pages/NotFound';
-import { BookLayout } from './shared/BookLayout';
+import { BookRoutes } from './BookRoutes';
+import { Books } from './pages/Books';
+import { Book } from './pages/Book';
+import { Contact } from './pages/Contact';
 
 function App() {
+  const element = useRoutes([
+    {
+      path: '/',
+      element: <Home />,
+    },
+    {
+      path: '/about',
+      element: <About />,
+    },
+    {
+      path: '/contact',
+      element: <Contact />,
+    },
+    {
+      path: '*',
+      element: <NotFound />,
+    },
+    {
+      path: '/books',
+      children: [
+        { index: true, element: <Books /> },
+        { path: ':id', element: <Book /> },
+      ],
+    },
+  ]);
+
   return (
     <>
       <Navigation />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/books' element={<BookLayout />}>
-          <Route index element={<Books />} />
-          <Route path=':id' element={<Book />} />
-          <Route path='new' element={<NewBook />} />
-        </Route>
+        <Route path='/books/*' element={<BookRoutes />} />
         <Route path='/about' element={<About />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
